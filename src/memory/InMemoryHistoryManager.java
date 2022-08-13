@@ -1,5 +1,6 @@
 package memory;
 
+
 import managers.HistoryManager;
 import task.Task;
 
@@ -25,7 +26,7 @@ public class InMemoryHistoryManager implements HistoryManager {
         if (Objects.isNull(task)) {
             return;
         } else {
-
+            customLinkedList.linkLast(task);
 
         }
 
@@ -63,16 +64,23 @@ public class CustomLinkedList {
 
 
     private void linkLast(Task task) {
-        final Node<Task> oldTale = tale;
-        final Node<Task> newNode = new Node<>(oldTale.prev, task, null);
-        tale = newNode;
-        if (oldTale.prev == null) {
 
-            head = newNode;
+        if (nodeHashMap.isEmpty()) {
+            final Node<Task> emptyNode = new Node<>(tale, task, null);
+            nodeHashMap.put(task.getId(), emptyNode);
         } else {
-            oldTale.next = newNode;
-        }
+            final Node<Task> oldTale = tale;
+            final Node<Task> newNode = new Node<>(oldTale, task, null);
+            tale = newNode;
+            nodeHashMap.put(task.getId(), tale);
+            if (oldTale == null) {
 
+                head = newNode;
+                nodeHashMap.put(task.getId(), head);
+            } else {
+                oldTale.next = newNode;
+            }
+        }
     }
 
     private List<Task> getTasks() {
