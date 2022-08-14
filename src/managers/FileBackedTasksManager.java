@@ -139,11 +139,11 @@ public class FileBackedTasksManager extends InMemoryTaskManager {
         FileBackedTasksManager fileBackedTasksManager = new FileBackedTasksManager();
         InMemoryHistoryManager historyManager = new InMemoryHistoryManager();
         InMemoryTaskManager taskManager = new InMemoryTaskManager();
-        Task task1 = new Task("TASK_1", "TASK_DESCRIPTION", fileBackedTasksManager.generateId(),
+        Task task1 = new Task("TASK_1", "TASK_DESCRIPTION", taskManager.generateId(),
                 TaskStatus.NEW);
-        Task task2 = new Task("TASK_2", "TASK_DESCRIPTION", fileBackedTasksManager.generateId(),
+        Task task2 = new Task("TASK_2", "TASK_DESCRIPTION", taskManager.generateId(),
                 TaskStatus.NEW);
-        Task task3 = new Task("TASK_3", "TASK_DESCRIPTION", fileBackedTasksManager.generateId(),
+        Task task3 = new Task("TASK_3", "TASK_DESCRIPTION", taskManager.generateId(),
                 TaskStatus.NEW);
 
         EpicTask epicTask1 = new EpicTask("EPICTASK1", "EPICTASK_DESCRIPRION",
@@ -152,17 +152,17 @@ public class FileBackedTasksManager extends InMemoryTaskManager {
         EpicTask epicTask4 = new EpicTask("EPICTASK4", "EPICTASK_DESCRIPRION",
                 1,
                 TaskStatus.NEW);
-        EpicTask epicTask2 = new EpicTask("EPICTASK2", "EPICTASK_DESCRIPRION", fileBackedTasksManager.generateId(),
+        EpicTask epicTask2 = new EpicTask("EPICTASK2", "EPICTASK_DESCRIPRION", taskManager.generateId(),
                 TaskStatus.NEW);
-        EpicTask epicTask3 = new EpicTask("EPICTASK3", "EPICTASK_DESCRIPRION", fileBackedTasksManager.generateId(),
+        EpicTask epicTask3 = new EpicTask("EPICTASK3", "EPICTASK_DESCRIPRION", taskManager.generateId(),
                 TaskStatus.NEW);
 
-        SubTask subTask1 = new SubTask("SUBTASK1", "SUBTASK_DESCRIPTION", fileBackedTasksManager.generateId(),
+        SubTask subTask1 = new SubTask("SUBTASK1", "SUBTASK_DESCRIPTION", taskManager.generateId(),
                 TaskStatus.NEW, epicTask1.getId());
         SubTask subTask2 = new SubTask("SUBTASK2", "SUBTASK_DESCRIPTION",
-                fileBackedTasksManager.generateId(),
+                taskManager.generateId(),
                 TaskStatus.NEW, epicTask1.getId());
-        SubTask subTask3 = new SubTask("SUBTASK3", "SUBTASK_DESCRIPTION", fileBackedTasksManager.generateId(),
+        SubTask subTask3 = new SubTask("SUBTASK3", "SUBTASK_DESCRIPTION", taskManager.generateId(),
                 TaskStatus.NEW, epicTask1.getId());
 
 
@@ -174,9 +174,14 @@ public class FileBackedTasksManager extends InMemoryTaskManager {
         fileBackedTasksManager.addEpic(epicTask3);
         fileBackedTasksManager.addEpic(epicTask1);
         fileBackedTasksManager.addEpic(epicTask4);
-        fileBackedTasksManager.getTaskById(task1.getId());
-        fileBackedTasksManager.getTaskById(task2.getId());
-        fileBackedTasksManager.getTaskById(task3.getId());
+
+        fileBackedTasksManager.addSubTask(epicTask1, subTask1);
+        fileBackedTasksManager.addSubTask(epicTask1, subTask2);
+        fileBackedTasksManager.addSubTask(epicTask1, subTask3);
+
+
+        taskManager.getTaskById(task1.getId());
+        taskManager.getEpicById(epicTask1.getId());
 
     }
 }

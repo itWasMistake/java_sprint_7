@@ -6,6 +6,7 @@ import managers.TaskManager;
 import task.EpicTask;
 import task.SubTask;
 import task.Task;
+import task.TaskToCSV;
 
 import java.util.HashMap;
 import java.util.List;
@@ -16,7 +17,7 @@ public class InMemoryTaskManager implements TaskManager {
     private final Map<Long, Task> tasks = new HashMap<>();
     private final Map<Long, EpicTask> epic = new HashMap<>();
 
-    private final HistoryManager historyManager = Managers.getHistoryDefault();
+    private final InMemoryHistoryManager historyManager = Managers.getHistoryDefault();
 
     // Добавление задачи
 
@@ -90,8 +91,9 @@ public class InMemoryTaskManager implements TaskManager {
 
     @Override
     public Task getTaskById(long id) {
-        historyManager.add(tasks.get(id));
-        return tasks.get(id);
+        Task task = tasks.get(id);
+        historyManager.add(task);
+        return task;
 
     }
     @Override
@@ -125,17 +127,22 @@ public class InMemoryTaskManager implements TaskManager {
     @Override
     public Long generateId() {
         Long id = 1L;
-        for (EpicTask epicTask : epic.values()) {
-            for (SubTask subTask : epicTask.getSubTaskEpic()) {
-                if (tasks.containsKey(id)) {
-                    return id + 1;
-                } else if (epic.containsKey(id)) {
-                    return id + 1;
-                } else if (subTask.getId().equals(id)) {
-                    return id + 1;
+        for (Task task : tasks.values()) {
+            for (EpicTask epicTask : epic.values()) {
+                for (SubTask subTask : epicTask.getSubTaskEpic()) {
+                        if (task.getId().equals(id)) {
+                            return ++id;
+                        } else if (epicTask.getId().equals(id)) {
+                            return ++id;
+                        } else if (subTask.getId().equals(id)) {
+                            return ++id;
+                        } else {
+                            return ++id;
+                        }
+                    }
                 }
             }
-        }
+
         return id;
     }
 

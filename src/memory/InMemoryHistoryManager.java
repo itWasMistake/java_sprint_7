@@ -1,6 +1,5 @@
 package memory;
 
-
 import managers.HistoryManager;
 import task.Task;
 
@@ -11,117 +10,135 @@ import java.util.Objects;
 
 public class InMemoryHistoryManager implements HistoryManager {
 
-    final HashMap<Long, Node<Task>> nodeHashMap = new HashMap<>();
+    private Node first;
+    private Node last;
+    final HashMap<Long, Node> nodeHashMap = new HashMap<>();
     final CustomLinkedList customLinkedList = new CustomLinkedList();
 
-    final List<Task> history = new ArrayList<>();
 
     @Override
     public List<Task> getHistory() {
-        return history;
-    }
-
-    @Override
-    public void add(Task task) {
-        if (Objects.isNull(task)) {
-            return;
-        } else {
-            customLinkedList.linkLast(task);
-
-        }
-
-    }
-
-
-    @Override
-    public String toString() {
-        return "InMemoryHistoryManager{" + "history=" + customLinkedList.getTasks() + '}';
+        return customLinkedList.getTasks();
     }
 
     @Override
     public void remove(Long id) {
-        customLinkedList.removeNode(id, nodeHashMap.get(id));
+        Node node = nodeHashMap.get(id);
+       customLinkedList.removeNode(node);
     }
-
-
-public static class Node<Task> {
-     Task task;
-    Node<Task> prev;
-    Node<Task> next;
-
-    public Node(Node<Task> prev, Task task, Node<Task> next) {
-        this.task = task;
-        this.next = next;
-        this.prev = prev;
-    }
-}
-
-
-public class CustomLinkedList {
-
-    private Node<Task> head;
-    private Node<Task> tale;
-
-
-    private void linkLast(Task task) {
-
-        if (nodeHashMap.isEmpty()) {
-            final Node<Task> emptyNode = new Node<>(tale, task, null);
-            nodeHashMap.put(task.getId(), emptyNode);
-        } else {
-            final Node<Task> oldTale = tale;
-            final Node<Task> newNode = new Node<>(oldTale, task, null);
-            tale = newNode;
-            nodeHashMap.put(task.getId(), tale);
-            if (oldTale == null) {
-
-                head = newNode;
-                nodeHashMap.put(task.getId(), head);
-            } else {
-                oldTale.next = newNode;
-            }
-        }
-    }
-
-    private List<Task> getTasks() {
-        Node<Task> oldHead = head;
-        for (Node<Task> node : nodeHashMap.values()) {
-            history.add(node.task);
-        }
-        return history;
-    }
-
-    private void removeNode(long id, Node<Task> taskNode) {
-        if (taskNode == null) {
+    @Override
+    public void add(Task task) {
+        if (Objects.isNull(task)) {
             return;
-        } else {
+        }
+        customLinkedList.linkLast(task);
+    }
 
-            if (taskNode.prev == null || nodeHashMap.containsKey(id)) {
-                Node<Task> oldHead = head;
-                Node<Task> newNode = new Node<>(null, taskNode.task, taskNode.next);
+    @Override
+     public String toString() {
+        return "InMemoryHistoryManager{" + "history=" + customLinkedList.getTasks() + '}';
+    }
 
-                head = newNode;
-                if (oldHead == null) {
-                    tale = newNode;
-                    nodeHashMap.remove(id);
+
+
+    public static class Node {
+        Task data;
+        Node prev;
+        Node next;
+
+
+        public Node(Node prev, Task data, Node next) {
+            this.data = data;
+            this.next = next;
+            this.prev = prev;
+        }
+
+        public Task getData() {
+            return data;
+        }
+
+        public void setData(Task data) {
+            this.data = data;
+        }
+
+        public Node getPrev() {
+            return prev;
+        }
+
+        public void setPrev(Node prev) {
+            this.prev = prev;
+        }
+
+        public Node getNext() {
+            return next;
+        }
+
+        public void setNext(Node next) {
+            this.next = next;
+        }
+
+        @Override
+        public String toString() {
+            return "Node{" +
+                    "data=" + data +
+                    ", prev=" + prev +
+                    ", next=" + next +
+                    '}';
+        }
+    }
+
+
+    public class CustomLinkedList {
+
+        private void linkLast(Task task) {
+            if (!nodeHashMap.containsKey(task.getId())) {
+                final Node node = new Node(last, task, null);
+                if (first == null) {
+                    first = node;
+                    nodeHashMap.put(task.getId(), first);
                 } else {
-                    oldHead.prev = newNode;
-                    nodeHashMap.remove(id);
+                    last.next = node;
+                    nodeHashMap.put(task.getId(), last.next);
                 }
-            } else if (taskNode.next == null || nodeHashMap.isEmpty()) {
-                Node<Task> oldLast = tale;
-                Node<Task> newNode = new Node<>(taskNode.prev, taskNode.task, null);
-                tale = newNode;
-                if (oldLast == null) {
-                    head = newNode;
-                    nodeHashMap.remove(id);
-                } else {
-                    oldLast.prev = newNode;
-                    nodeHashMap.remove(id);
-                }
+                last = node;
+                nodeHashMap.put(task.getId(), last);
+            }
+        }
+
+        private List<Task> getTasks() {
+            List<Task> history = new ArrayList<>();
+            Node node = first;
+            while (node != null) {
+                history.add(node.data);
+                node = node.next;
+            }
+            return history;
+        }
+
+
+        public void removeNode(Node node) {
+            if (Objects.isNull(node)) {
+                return;
+            }
+            if (node.next != null && node.prev != null) {
+                // середина
+                node.prev.next = node.next;
+                node.next.prev = node.prev;
+
+            }
+            if (node.next == null && node.prev != null) {
+                // хвост
+                last = node.prev;
+            }
+            if (node.next != null && node.prev != null) {
+                // голова
+                first = node.next;
+            }
+            if (node.next == null && node.prev == null) {
+                node.prev = node;
+                node.next = node;
             }
         }
     }
-}
 }
 

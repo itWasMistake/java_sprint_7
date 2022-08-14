@@ -1,8 +1,6 @@
 package task;
 
-import managers.HistoryManager;
 import memory.InMemoryHistoryManager;
-import task.*;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -14,17 +12,16 @@ public class TaskToCSV {
     public static String toString(Task task) {
         StringBuilder sb = new StringBuilder();
         if (task.getType().equals(TaskType.TASK)) {
-            sb.append(task.getId() + "," + task.getType() + "," + task.getName() + "," +
-                    task.getStatus() + "," + task.getDescription());
+            sb.append(task.getId()).append(",").append(task.getType()).append(",").append(task.getName()).append(",")
+                    .append(task.getStatus()).append(",").append(task.getDescription());
             return sb.toString();
         } else if (task.getType().equals(TaskType.EPIC_TASK)) {
-            sb.append(task.getId() + "," + task.getType() + "," + task.getName() + "," +
-                    task.getStatus() + "," + task.getDescription());
+            sb.append(task.getId()).append(",").append(task.getType()).append(",").append(task.getName()).append(",")
+                    .append(task.getStatus()).append(",").append(task.getDescription());
             return sb.toString();
         } else {
-
-            sb.append(task.getId() + "," + task.getType() + "," + task.getName() + "," +
-                    task.getStatus() + "," + task.getDescription() + ",");
+            sb.append(task.getId()).append(",").append(task.getType()).append(",").append(task.getName()).append(",")
+                    .append(task.getStatus()).append(",").append(task.getDescription()).append(",");
             return sb.toString();
         }
     }
@@ -54,18 +51,23 @@ public class TaskToCSV {
     }
 
     public static String historyToString(List<Task> history) {
-       String historyNumbers;
+        StringBuilder stringBuilder = new StringBuilder();
+
         for (Task tasks : history) {
-           historyNumbers = tasks.getId().toString() + ",";
-           return historyNumbers;
-       }
-        return null;
+            stringBuilder.append(tasks.getId()).append(",");
+        }
+        return stringBuilder.toString();
     }
+
 
     public static List<Long> historyFromString(String history) {
         List<Long> ids = new ArrayList<>();
-        for (Task tasks : historyManager.getHistory()) {
-            ids.add(tasks.getId());
+        if (!Objects.isNull(history)) {
+            String[] split = history.split(",");
+            long id = Long.parseLong(split[0]);
+            ids.add(id);
+        } else {
+            return null;
         }
         return ids;
     }

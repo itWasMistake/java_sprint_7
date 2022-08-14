@@ -9,11 +9,14 @@ import task.SubTask;
 import task.Task;
 import task.TaskStatus;
 
+import java.util.List;
+
 public class HistoryTest<T extends HistoryManager> {
     static InMemoryHistoryManager historyManager;
 
     static Task task;
 
+    static  Task taskOne;
     static EpicTask epicTask;
 
     static SubTask subTask;
@@ -38,26 +41,39 @@ public class HistoryTest<T extends HistoryManager> {
 
         task = new Task("Name", "DESCRIPTION",
                 1900L, TaskStatus.NEW);
+        taskOne = new Task("Name", "DESCRIPTION",
+                190110L, TaskStatus.NEW);
         epicTask = new EpicTask("Name", "DESCRIPTION",
                 50L, TaskStatus.NEW);
         subTask = new SubTask("Name", "DESCRIPTION",
                 1L, TaskStatus.NEW, epicTask.getId());
-        taskManager.addEpic(epicTask);
-        taskManager.addTask(task);
-        taskManager.addSubTask(epicTask, subTask);
-
     }
 
     @Test
-    public void shouldBeReturnHistoryList() {
+    public void shouldCreateHistoryList() {
+        List<Task> history = historyManager.getHistory();
 
-        taskManager.getTaskById(task.getId());
-        taskManager.getEpicById(epicTask.getId());
-        taskManager.getSubTaskByID(epicTask.getId(), epicTask.getSubTaskEpic().indexOf(subTask));
-        Assertions.assertFalse(historyManager.getHistory().isEmpty());
-        Assertions.assertNotNull(historyManager.getHistory());
+        Assertions.assertNotNull(history, "тут что-то есть....");
+        Assertions.assertTrue(history.isEmpty(), "пустовато....");
 
     }
+    @Test
+    public void shouldAddTaskInHistory() {
+        historyManager.add(task);
+        List<Task> history = historyManager.getHistory();
+        Assertions.assertNotNull(history);
+        Assertions.assertEquals(1, history.size());
+    }
+
+    @Test
+    public void shouldNotAddTwice() {
+        historyManager.add(task);
+        historyManager.add(task);
+        List<Task> history = historyManager.getHistory();
+        Assertions.assertNotNull(history);
+        Assertions.assertEquals(1, history.size());
+    }
+
 
     @Test
     public void shouldRemoveTaskFromHistory() {
@@ -67,16 +83,6 @@ public class HistoryTest<T extends HistoryManager> {
         historyManager.remove(task.getId());
 
         Assertions.assertTrue(historyManager.getHistory().isEmpty());
-
-    }
-
-    @Test
-    public void shouldAddTaskInHistory() {
-        taskManager.getTaskById(task.getId());
-        taskManager.getEpicById(epicTask.getId());
-        taskManager.getSubTaskByID(epicTask.getId(), epicTask.getSubTaskEpic().indexOf(subTask));
-
-        Assertions.assertFalse(historyManager.getHistory().isEmpty());
 
     }
 }
