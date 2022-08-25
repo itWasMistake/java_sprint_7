@@ -1,7 +1,6 @@
-package managers;
+package main.java.managers;
 
-import memory.InMemoryHistoryManager;
-import memory.InMemoryTaskManager;
+import main.java.memory.InMemoryHistoryManager;
 
 public class Managers {
 

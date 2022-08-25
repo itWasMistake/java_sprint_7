@@ -1,12 +1,12 @@
-package test.task;
+package java.task;
 
-import memory.InMemoryTaskManager;
+import main.java.memory.InMemoryTaskManager;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-import task.EpicTask;
-import task.SubTask;
-import task.TaskStatus;
+import main.java.task.EpicTask;
+import main.java.task.SubTask;
+import main.java.task.TaskStatus;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertTrue;

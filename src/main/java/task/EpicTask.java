@@ -1,4 +1,4 @@
-package task;
+package main.java.task;
 
 import java.time.LocalDateTime;
 import java.util.ArrayList;
@@ -35,7 +35,7 @@ public class EpicTask extends Task {
     public void setStatus(TaskStatus status) {
 
     }
-
+    @Override
     public void setEndTime(LocalDateTime endTime) {
         this.endTime = endTime;
     }

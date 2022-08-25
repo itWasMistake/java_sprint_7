@@ -1,13 +1,13 @@
-package test.managers;
+package java.managers;
 
-import managers.TaskManager;
+import main.java.managers.TaskManager;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-import task.EpicTask;
-import task.SubTask;
-import task.Task;
-import task.TaskStatus;
+import main.java.task.EpicTask;
+import main.java.task.SubTask;
+import main.java.task.Task;
+import main.java.task.TaskStatus;
 
 import java.time.LocalDateTime;
 import java.util.List;

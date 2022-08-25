@@ -1,10 +1,10 @@
-package test.memory;
+package java.memory;
 
 
-import memory.InMemoryTaskManager;
+import main.java.memory.InMemoryTaskManager;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-import test.managers.TaskManagerTestAbstract;
+import java.managers.TaskManagerTestAbstract;
 
 class InMemoryTaskManagerTestAbstract extends TaskManagerTestAbstract<InMemoryTaskManager> {
 

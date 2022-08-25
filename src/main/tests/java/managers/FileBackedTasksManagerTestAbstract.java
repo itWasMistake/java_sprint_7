@@ -1,12 +1,13 @@
-package test.managers;
+package java.managers;
 
-import managers.FileBackedTasksManager;
+import main.java.managers.FileBackedTasksManager;
+
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
 import static org.junit.jupiter.api.Assertions.*;
-import task.Task;
+import main.java.task.Task;
 
 import java.io.File;
 import java.util.Map;

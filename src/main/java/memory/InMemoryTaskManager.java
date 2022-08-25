@@ -1,13 +1,12 @@
-package memory;
+package main.java.memory;
 
-import exceptionCustom.TaskValidateException;
-import managers.Managers;
-import managers.TaskManager;
-import task.EpicTask;
-import task.SubTask;
-import task.Task;
+import main.java.exceptionCustom.*;
+import main.java.managers.Managers;
+import main.java.managers.TaskManager;
+import main.java.task.EpicTask;
+import main.java.task.SubTask;
+import main.java.task.Task;
 
-import java.time.DateTimeException;
 import java.time.LocalDateTime;
 import java.util.*;
 

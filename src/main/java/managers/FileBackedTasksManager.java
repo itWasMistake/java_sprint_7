@@ -1,11 +1,10 @@
-package managers;
+package main.java.managers;
 
-import exceptionCustom.ManagerSaveException;
-import memory.InMemoryTaskManager;
-import task.*;
+import main.java.exceptionCustom.*;
+import main.java.memory.InMemoryTaskManager;
+import main.java.task.*;
 
 import java.io.*;
-import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Map;
 import java.util.Objects;
