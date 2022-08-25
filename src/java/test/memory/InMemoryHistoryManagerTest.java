@@ -1,8 +1,8 @@
-package managers;
+package test.memory;
 
 import memory.InMemoryHistoryManager;
-import memory.InMemoryTaskManager;
-import org.junit.jupiter.api.BeforeAll;
+import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import task.EpicTask;
 import task.SubTask;
@@ -13,21 +13,21 @@ import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.*;
 
-class HistoryManagerTest {
-    static InMemoryHistoryManager historyManager;
+class InMemoryHistoryManagerTest {
 
-    static Task task;
+    InMemoryHistoryManager historyManager;
 
-    static EpicTask epicTask;
+    Task task;
 
-    static SubTask subTask;
+    EpicTask epicTask;
 
-    static InMemoryTaskManager taskManager;
+    SubTask subTask;
 
-    @BeforeAll
-    public static void beforeAll() {
+
+    @BeforeEach
+    public void beforeEach() {
         historyManager = new InMemoryHistoryManager();
-        taskManager = new InMemoryTaskManager();
+
 
         task = new Task("Name", "DESCRIPTION",
                 1, TaskStatus.NEW);
@@ -40,9 +40,8 @@ class HistoryManagerTest {
     @Test
     public void shouldCreateHistoryList() {
         List<Task> history = historyManager.getHistory();
-
-        assertNotNull(history, "тут что-то есть....");
-        assertTrue(history.isEmpty(), "пустовато....");
+        assertNotNull(history);
+        assertTrue(history.isEmpty());
 
     }
 
@@ -68,8 +67,8 @@ class HistoryManagerTest {
         historyManager.add(task);
         historyManager.add(epicTask);
         historyManager.add(subTask);
-
         List<Task> history = historyManager.getHistory();
+
         assertNotNull(history);
         assertEquals(3, history.size());
 
@@ -77,8 +76,8 @@ class HistoryManagerTest {
         history = historyManager.getHistory();
         assertNotNull(history);
         assertEquals(2, history.size());
-        assertEquals(subTask, history.get(0));
-        assertEquals(epicTask, history.get(1));
+        assertEquals(subTask, history.get(1));
+        assertEquals(epicTask, history.get(0));
 
     }
 
@@ -130,6 +129,14 @@ class HistoryManagerTest {
         assertNotNull(history);
         assertEquals(0, history.size());
 
+
+    }
+    @Test
+    void expectedException() {
+        NumberFormatException thrown = Assertions.assertThrows(
+                NumberFormatException.class, () -> Integer.parseInt("One"),
+                "NumberFormatException was expected");
+        Assertions.assertEquals("For input string: \"One\"", thrown.getMessage());
 
     }
 }

@@ -1,7 +1,6 @@
-package tests;
+package test.task;
 
 import memory.InMemoryTaskManager;
-import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -9,15 +8,14 @@ import task.EpicTask;
 import task.SubTask;
 import task.TaskStatus;
 
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
-class EpicTaskStatusTest {
+class EpicTaskTest {
 
-    // Создание окружения
     static EpicTask epicWithoutSubTasks;
     static EpicTask epicTask;
-
     static InMemoryTaskManager taskManager;
-
     static SubTask subTask0;
     static SubTask subTask2;
     static SubTask subTask3;
@@ -56,8 +54,8 @@ class EpicTaskStatusTest {
     @Test
     public void listOfSubTasksAreEmpty() {
         boolean mustBeTrue = epicWithoutSubTasks.getSubTaskEpic().isEmpty();
-        Assertions.assertTrue(mustBeTrue);
-        Assertions.assertEquals(epicWithoutSubTasks.getStatus(), TaskStatus.NEW);
+        assertTrue(mustBeTrue);
+        assertEquals(epicWithoutSubTasks.getStatus(), TaskStatus.NEW);
     }
 
     // Проверка статуса эпика когда все позадачи со статусом NEW
@@ -70,7 +68,7 @@ class EpicTaskStatusTest {
         subTask3.setStatus(TaskStatus.NEW);
         subTask4.setStatus(TaskStatus.NEW);
 
-        Assertions.assertEquals(TaskStatus.NEW, epicTask.getStatus());
+        assertEquals(TaskStatus.NEW, epicTask.getStatus());
     }
 
     // Проверка статуса эпика когда все подзадачи со статусом DONE
@@ -85,7 +83,7 @@ class EpicTaskStatusTest {
         subTask4.setStatus(TaskStatus.DONE);
 
 
-        Assertions.assertEquals(TaskStatus.DONE, epicTask.getStatus());
+        assertEquals(TaskStatus.DONE, epicTask.getStatus());
     }
 
     // Проверка статуса эпика когда все задачи со статусом IN_PROGRESS
@@ -98,7 +96,7 @@ class EpicTaskStatusTest {
         subTask3.setStatus(TaskStatus.IN_PROGRESS);
         subTask4.setStatus(TaskStatus.IN_PROGRESS);
 
-        Assertions.assertEquals(TaskStatus.IN_PROGRESS, epicTask.getStatus());
+        assertEquals(TaskStatus.IN_PROGRESS, epicTask.getStatus());
     }
 
 
@@ -109,6 +107,6 @@ class EpicTaskStatusTest {
         subTask3.setStatus(TaskStatus.IN_PROGRESS);
         subTask4.setStatus(TaskStatus.IN_PROGRESS);
 
-        Assertions.assertEquals(TaskStatus.IN_PROGRESS, epicTask.getStatus());
+        assertEquals(TaskStatus.IN_PROGRESS, epicTask.getStatus());
     }
 }

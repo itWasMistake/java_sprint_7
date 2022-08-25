@@ -38,6 +38,7 @@ public interface TaskManager {
 
     SubTask getSubTaskByID(Long epicId, int subId);
 
+    List<Task> getPrioritizedTasks();
     // Получение списка всех задач
     Map<Long, Task> getAllTasks();
 

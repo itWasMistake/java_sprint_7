@@ -1,16 +1,22 @@
 package task;
 
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 
 public class EpicTask extends Task {
 
-    private TaskType type = TaskType.EPIC_TASK;
+    private final TaskType type = TaskType.EPIC_TASK;
 
-    private List<SubTask> subTaskEpic = new ArrayList<>();
+    private final List<SubTask> subTaskEpic = new ArrayList<>();
 
     public EpicTask(String name, String description, long id, TaskStatus status) {
         super(name, description, id, status);
+    }
+
+    public EpicTask(String name, String description, long id, TaskStatus status,
+                    LocalDateTime startTime,LocalDateTime endTime ,Long duration) {
+        super(name, description, id, status, startTime,endTime ,duration);
     }
 
     public void addSubTask(SubTask subTask) {
@@ -28,6 +34,10 @@ public class EpicTask extends Task {
     @Override
     public void setStatus(TaskStatus status) {
 
+    }
+
+    public void setEndTime(LocalDateTime endTime) {
+        this.endTime = endTime;
     }
 
     @Override
@@ -52,14 +62,13 @@ public class EpicTask extends Task {
                     doneSub++;
                     if (doneSub == subTaskEpic.size()) {
                         return TaskStatus.DONE;
-                    } else if (!(subTask.getStatus().equals(TaskStatus.NEW) && subTask.getStatus().equals(TaskStatus.DONE))) {
-                        return TaskStatus.IN_PROGRESS;
                     }
+                } else {
+                    return TaskStatus.IN_PROGRESS;
                 }
             }
         }
-        return TaskStatus.NEW;
+        return null;
     }
-
-
 }
+
