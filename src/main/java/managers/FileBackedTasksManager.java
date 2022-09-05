@@ -12,8 +12,6 @@ import java.util.Objects;
 public class FileBackedTasksManager extends InMemoryTaskManager {
 
     private File file;
-
-
     private void save() {
 
         file = new File("resources/tasks.csv");
@@ -159,17 +157,5 @@ public class FileBackedTasksManager extends InMemoryTaskManager {
             throw new ManagerSaveException(exception.getMessage());
         }
         return fileBackedTasksManager;
-    }
-    public static void main(String[] args) {
-        FileBackedTasksManager tasksManager = loadFromFile("resources/tasks.csv");
-        System.out.println("Задачи по приоритету");
-        for (Task task : tasksManager.getPrioritizedTasks()) {
-            System.out.println(task);
-        }
-        System.out.println("Список задач");
-        for (Task task : tasksManager.getAllTasks().values()) {
-            System.out.println(task);
-        }
-
     }
 }

@@ -15,8 +15,8 @@ public class EpicTask extends Task {
     }
 
     public EpicTask(String name, String description, long id, TaskStatus status,
-                    LocalDateTime startTime,LocalDateTime endTime ,Long duration) {
-        super(name, description, id, status, startTime,endTime ,duration);
+                    LocalDateTime startTime, LocalDateTime endTime, Long duration) {
+        super(name, description, id, status, startTime, endTime, duration);
     }
 
     public void addSubTask(SubTask subTask) {
@@ -35,6 +35,7 @@ public class EpicTask extends Task {
     public void setStatus(TaskStatus status) {
 
     }
+
     @Override
     public void setEndTime(LocalDateTime endTime) {
         this.endTime = endTime;
